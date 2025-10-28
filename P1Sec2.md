@@ -4,45 +4,122 @@ marp: true
 ---
 # Section 2
 ## Writing Dockerfile with Best Practices and Multi-Stage Builds
-### 1. Dockerfile Structure: FROM, RUN, COPY, CMD, etc.
+## 1. Dockerfile Structure: FROM, RUN, COPY, CMD, etc.
 
 **Definition:**
 
 A **Dockerfile** is a text file that contains a set of instructions that tell Docker how to build a container image.Each instruction creates a layer in the final image, forming the blueprint for your application environment.
 
 ---
-### Common Dockerfile Instructions:
+## Common Dockerfile Instructions:
 
-1. **FROM** : Specifies the base image from which you build your image
-2. **LABEL** : Adds metadata to the image (e.g., version, maintainer).
-3. **WORKDIR**: Sets the working directory inside the container.
-4. **COPY**: Copies files from the host system into the container.
-5. **RUN**: Executes commands during image build (e.g., installing packages).
-6. **CMD**: Specifies the default command to run when a container starts.
-7. **EXPOSE**: Documents which ports the container listens on.
-8. **ENV**: Sets environment variables.
-9. **ENTRYPOINT**: Defines a command that always runs when the container starts.
+**1. FROM** : 
+- Specifies the base image from which you build your image.
+- Every Dockerfile must start with a FROM instruction unless it’s a scratch image.
+- Best Practice: Use lightweight base images (Alpine, Slim) for smaller final images.
+
+- **Example:**
+
+        FROM ubuntu:22.04
+        FROM node:18-alpine
+        
+---
+
+**2. LABEL** 
+- Adds metadata to the image (e.g., version, maintainer).
+- Best Practice: Use LABELs for traceability and documentation
+- Example:
+    ```yaml
+    LABEL maintainer="prerana@example.com" \
+      version="1.0" \
+      description="My sample app"
+**3. WORKDIR**:
+ - Sets the working directory inside the container.
+ - Effect: All subsequent instructions (RUN, COPY, CMD) are executed in /app.
+ - Example:
+
+       WORKDIR /app
+---
+**4. COPY**: 
+- Copies files from the host system into the container.
+- Best Practice: Copy only necessary files to reduce image size and rebuild time.
+- Example:
+
+        COPY package.json package-lock.json /app/
+        COPY src/ /app/src/
+**5. RUN**: 
+- Executes commands during image build (e.g., installing packages).
+- Best Practice: Combine commands with && to reduce number of layers.
+---
+- Example:
+
+        RUN apt-get update && apt-get install -y curl git
+        RUN npm install
+
+**6. CMD**: 
+- Specifies the default command to run when a container starts.
+- CMD can be overridden by docker run <image> <command>
+- Example:
+
+      CMD ["node", "index.js"]
+---
+
+**7. EXPOSE**: 
+- Documents which ports the container listens on.
+- EXPOSE does not publish the port — use docker run -p to map ports.
+- Example:
+
+        EXPOSE 3000
+
+**8. ENV**: 
+- Sets environment variables.
+- Keep sensitive data out of Dockerfiles — use secrets or environment variables at runtime.
+---
+- Example:
+
+        ENV NODE_ENV=production
+        ENV PORT=3000
+
+**9. ENTRYPOINT**: 
+- Defines a command that always runs when the container starts.
+- ENTRYPOINT cannot be overridden as easily, whereas CMD can.
+- Example: 
+
+        ENTRYPOINT ["python3", "app.py"]
+
 
 ---
-### 2. Image Layering & Caching
+## 2. Image Layering & Caching
+### 2.1 Docker Image LayeringConcept of Layers
 
-#### Concept of Layers
-Every Docker image is built in layers. Each line in a Dockerfile (e.g., RUN, COPY, ENV) creates a new read-only layer that represents changes to the file system.
+**What are Layers?**
 
-When a container is started, Docker stacks these layers together plus a read-write layer on top, allowing the container to modify files temporarily.
+- Every Docker image is built in layers.
+- Each instruction in a Dockerfile (RUN, COPY, ENV, etc.) creates a read-only layer representing the changes made to the filesystem.
+- These layers are stacked on top of each other when the container starts, plus a read-write layer on top for temporary changes
+---
 
-This layered approach makes Docker images:
+**Example Dockerfile:**
 
-**Modular** — only changed parts are rebuilt.
+        FROM ubuntu:22.04
+        COPY app/ /app
+        RUN apt-get update && apt-get install -y curl
+        ENV NODE_ENV=production
 
-**Cache-friendly** — speeds up builds using existing layers.
+**Layer breakdown:**
+
+- FROM ubuntu:22.04 → Base layer
+- COPY app/ /app → Adds application files
+- RUN apt-get ... → Installs packages
+- ENV NODE_ENV=production → Sets environment variable
+
+When Docker builds this image, it creates a separate layer for each instruction.
 
 ---
-#### Layer Caching
+### 2.2 Layer Caching
 
-Docker uses build caching if a layer hasn’t changed since the last build, it reuses the previous layer instead of rebuilding it.
+Docker uses build caching if a layer hasn’t changed since the last build, it reuses the previous layer instead of rebuilding it.This significantly speeds up the image-building process.
 
-This significantly speeds up the image-building process.
 
 ### 3. Multi-Stage Builds
 
@@ -50,7 +127,7 @@ This significantly speeds up the image-building process.
 
 A multi-stage build allows you to use multiple FROM statements in a single Dockerfile to separate the build environment from the runtime environment.
 
-This method is used to produce lean, production-ready images that contain only what is absolutely necessary for execution — no compilers, temporary files, or build dependencies.
+This method is used to produce lean, production-ready images that contain only what is absolutely necessary for execution no compilers, temporary files, or build dependencies.
 
 ---
 
@@ -69,22 +146,41 @@ Keeping them would make the image unnecessarily large and expose potential secur
 ---
 ### How Multi-Stage Builds Work Conceptually
 
-1. **Stage 1: Build Stage**
+**Stage 1: Build Stage**
 
 - Uses a heavy base image (with all build tools).
-
 - Installs dependencies and compiles or builds the app
 
-2. **Stage 2: Runtime Stage**
+        FROM node:18 AS builder
+        WORKDIR /app
+        COPY package.json package-lock.json ./
+        RUN npm install
+        COPY . .
+        RUN npm run build
+
+---
+
+**Stage 2: Runtime Stage**
 
 - Uses a lightweight base image (like Alpine).
-
 - Copies only the compiled output or binary from Stage 1.
-
 - Excludes build tools and temporary files.
+
+        FROM node:18-alpine
+        WORKDIR /app
+        COPY --from=builder /app/dist ./dist
+        COPY --from=builder /app/package.json ./
+        CMD ["node", "dist/index.js"]
 
 3. **Result:**
 - A clean, small, secure image optimized for running in production.
+
+---
+## Multistage Build Diagram:
+ <div >
+  <img src="multi.png" align="center"width="80%">
+</div>
+
 
 ---
 ### 4. Statelessness, Disposability & Logging Best Practices
