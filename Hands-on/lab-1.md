@@ -2,6 +2,7 @@
 marp: true
 
 ---
+# Lab 1 :
 # Docker Lab: Pulling and Running Containers (Public & Private Repos w/wo Docker Compose)
 
 ---
