@@ -20,14 +20,14 @@ A VM is a software-based emulation of a physical computer that includes its own 
 | **Virtual Hardware** | Virtual CPU, memory, storage, and network interfaces assigned to each VM by the hypervisor. |
 
 ---
-
+#### 1.1.2. Types of Hypervisors 
 | **Type** | **Description** | **Examples** |
 |:--:|:--|:--|
 | **Type 1 (Bare-Metal)** | Installed directly on physical hardware. Commonly used in enterprise servers. | VMware ESXi<br>Microsoft Hyper-V<br>Xen |
 | **Type 2 (Hosted)** | Runs as an application on top of an existing operating system. Ideal for personal or educational use. | Oracle VirtualBox<br>VMware Workstation<br>Parallels Desktop |
 
 ---
-### 1.1.2. How to Include (Set Up) a VM
+### 1.1.3. How to Include (Set Up) a VM
 
 Here’s the general process to create or “include” a VM on your system:
 
@@ -67,7 +67,7 @@ Here’s the general process to create or “include” a VM on your system:
 - File drag-and-drop
 -> install “Guest Additions” or “VM Tools” provided by the hypervisor.
 
-#### 1.1.3. How a VM Communicates with Your Device (Networking)
+#### 1.1.4. How a VM Communicates with Your Device (Networking)
 VMs use virtual network adapters created by the hypervisor to communicate with your physical device and the external network
 
 ---
@@ -142,7 +142,7 @@ Containers use virtual networking to communicate with:
 | **Overlay** | Connects containers across multiple hosts. | Used in Docker Swarm/Kubernetes. |
 
  ---
- ### Difference Between VMs and Containers
+ - ### Difference Between VMs and Containers
 
 | Feature | Virtual Machine | Container |
 |-----------|-----------|-----------|
@@ -247,7 +247,7 @@ Authentication helps:
 3. Ensure compliance with enterprise security policies
 
 ---
-### Common Authentication Methods:
+### 4.1. Common Authentication Methods:
 
 1. **Username and Password / Tokens:**
 Users authenticate with credentials or personal access tokens. These credentials are verified by the registry before allowing access.
