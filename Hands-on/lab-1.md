@@ -80,6 +80,7 @@ marp: true
 
 
 **1. docker pull nginx:latest**: Downloads the Nginx image from the public Docker Hub repository.
+
 **2. docker run -d -p 8080:80:**
 
 - -d → detached mode (runs in the background)
@@ -90,3 +91,8 @@ marp: true
 
 
 ---
+
+## PART 2: Pull and Run Container from a Private Repository (Without Docker Compose)
+
+**Goal**: Learn how authentication works in Docker, create a custom image, push it to your private Docker Hub repository, then pull and run it again.
+
