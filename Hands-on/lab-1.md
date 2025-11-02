@@ -6,6 +6,18 @@ marp: true
 # Docker Lab: Pulling and Running Containers (Public & Private Repos w/wo Docker Compose)
 
 ---
+### What is Docker & Docker Compose 
+
+**Docker** is a containerization platform that allows applications to run in lightweight, isolated environments called containers.
+It ensures the application runs the same way on any system by packaging the code, runtime, libraries, and dependencies inside an image.
+
+
+
+
+**Docker Compose** is a tool used to define and run multiple containers together using a single YAML configuration file (docker-compose.yml).
+It makes it easier to manage multi-container applications (for example: web app + database) by starting, stopping, and configuring all containers at once.
+
+---
 ## PART 0: Installation & Setup
 **1. Install Docker (includes Docker Compose)**
 
