@@ -86,9 +86,11 @@ Line-by-line explanation
 
 - **CMD ["npm", "start"]** — process to run when the container starts. Use JSON form to avoid shell parsing surprises.
 
+---
+
 **5. Multi-stage Dockerfile**
 - Create Dockerfile.multistage:
-
+```
         #Stage 1: build
 
         FROM node:18-alpine AS build
@@ -99,8 +101,6 @@ Line-by-line explanation
 
         #If you had a build step (e.g. frontend bundling), you'd run it here
         #RUN npm run build
-
----
 
         #Stage 2: production runtime
 
@@ -124,6 +124,7 @@ Line-by-line explanation
         ENV PORT=3000
         EXPOSE 3000
         CMD ["npm", "start"]
+```
 
 ---
 **6. 4. Build, run, test locally**
