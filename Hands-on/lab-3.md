@@ -80,7 +80,7 @@ Exit container:
 
      docker run -it --rm -v datavol:/data alpine sh
 
-Check files:
+**Check files:**
 
      ls /data
      cat /data/file1.txt

@@ -1,5 +1,6 @@
 ---
 marp: true
+_class: invert
 ---
 # Lab 2 
 # Write a Dockerfile for a simple Node.js or Python app
@@ -42,32 +43,33 @@ marp: true
 **4. Create Dockerfile (SINGLE STAGE)**
 
 - Create file named: Dockerfile
-
-        #Use official Node.js runtime as the base image
-        FROM node:18-alpine
-
-        #Create app directory
-        WORKDIR /usr/src/app
-
-        #Copy package.json first (takes advantage of Docker cache)
-        COPY package.json ./
-
 ---
+```
 
-        #Install dependencies
-        RUN npm install --production
+#Use official Node.js runtime as the base image
+FROM node:18-alpine
 
-        #Copy app source code
-        COPY . .
+#Create app directory
+WORKDIR /usr/src/app
 
-        #Environment variable (optional)
-        ENV PORT=3000
+#Copy package.json first (takes advantage of Docker cache)
+COPY package.json ./
 
-        #Expose port (documentation only)
-        EXPOSE 3000
+#Install dependencies
+RUN npm install --production
 
-        #Command to run the app
-        CMD ["npm", "start"]
+#Copy app source code
+COPY . .
+
+#Environment variable (optional)
+ENV PORT=3000
+
+#Expose port (documentation only)
+EXPOSE 3000
+
+#Command to run the app
+CMD ["npm", "start"]
+```
 
 ---
 Line-by-line explanation 

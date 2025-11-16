@@ -11,6 +11,10 @@ marp: true
 A VM is a software-based emulation of a physical computer that includes its own Operating System (OS), libraries, and applications. It runs on top of a hypervisor such as VMware, VirtualBox,or KVM.  
 
 ---
+ ![bg center 55%](Vm.png)
+Virtual Machine:
+
+---
 #### 1.1.1. Components of VM
 | **Component** | **Description** |
 |:--------------:|:----------------|
@@ -83,6 +87,13 @@ VMs use virtual network adapters created by the hypervisor to communicate with y
 ### 1.2. Container
 A container is a lightweight, isolated environment that packages an application and all its dependencies but shares the host OS kernel. Containers start faster, use fewer resources, and are portable across environments.
 
+---
+
+![bg center 55%](container.png)
+
+Conatiner: 
+
+---
 **1.2.1. Key Components of a Container**
 
  **Component** | **Description** |
@@ -203,6 +214,7 @@ You can think of it like **GitHub** for **Docker images**.
 | **Cloud-Native Registry** | Hosted by cloud providers, tightly integrated with cloud services. | GCP Artifact Registry, AWS ECR, Azure ACR |
 ---
 ### 3.3 How to Use a Container Registry
+
 **Step 1: Login**
 
 - Authenticate with your registry:

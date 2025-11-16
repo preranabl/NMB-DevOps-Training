@@ -59,6 +59,48 @@ It makes it easier to manage multi-container applications (for example: web app 
         docker compose version
 
 ---
+
+**Part 1: Create a Docker Hub Account**
+
+  -  Go to Docker Hub
+  - Open your browser and visit:
+https://hub.docker.com
+  - Step 2: Click “Sign Up”
+
+     You will be asked to create an account:
+
+     - Enter a username (example: prerana123)
+     - Enter your email
+     - Create a password
+     -  Verify Your Email
+     - Open your email inbox and click the verification link sent by Docker.
+
+---
+
+ Your Docker Hub account is now ready!
+
+**Part 2: Install Docker on Your Computer**
+
+**Part 3: Login to Docker Hub From CLI**
+
+- After installing Docker, open your terminal/PowerShell and run:
+
+      docker login
+
+- You will be asked:
+
+      Username: <your_dockerhub_username>
+      Password: <your_password>
+
+
+If login is successful, you will see: Login Succeeded
+
+
+
+
+
+
+---
 ## PART 1: Pull and Run Container from a Public Repository (Without Docker Compose)
 
 
