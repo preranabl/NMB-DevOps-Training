@@ -45,9 +45,6 @@ Now, let's ask the Kubernetes API server for the status of our Pod.
 ```bash
 kubectl get pods
 ```
-*Expected Output:*
-> `NAME           READY   STATUS              RESTARTS   AGE`
-> `my-first-pod   0/1     ContainerCreating   0          5s`
 
 *(Note: If the status says `ContainerCreating`, Kubernetes is currently downloading the image from the registry. Run the command again after a few seconds, and it should transition to `Running`).*
 
@@ -64,9 +61,6 @@ Because this is a static Pod without a controller, if we delete it, it will not 
 ```bash
 kubectl delete pod my-first-pod
 ```
-*Expected Output:*
-> `pod "my-first-pod" deleted`
-
 ---
 
 ## Part 2: Working with Deployments
@@ -110,8 +104,7 @@ Submit the file to the cluster:
 ```bash
 kubectl apply -f deploy.yaml
 ```
-*Expected Output:*
-> `deployment.apps/web-deploy created`
+
 
 ### Step 3: Verify the Deployment and ReplicaSet
 Let's look at the Deployment object:
@@ -119,30 +112,18 @@ Let's look at the Deployment object:
 ```bash
 kubectl get deploy web-deploy
 ```
-*Expected Output:*
-> `NAME         READY   UP-TO-DATE   AVAILABLE   AGE`
-> `web-deploy   3/3     3            3           15s`
 
 Behind the scenes, the Deployment automatically created a **ReplicaSet** to manage the Pods. Let's verify that:
 
 ```bash
 kubectl get replicasets
 ```
-*Expected Output:*
-> `NAME                    DESIRED   CURRENT   READY   AGE`
-> `web-deploy-67959776b5   3         3         3       30s`
-*(Notice the alphanumeric hash `67959776b5` appended to the name. Kubernetes generates this based on your Pod template).*
 
 Finally, let's look at the actual Pods. You should see 3 of them running:
 
 ```bash
 kubectl get pods
 ```
-*Expected Output:*
-> `NAME                          READY   STATUS    RESTARTS   AGE`
-> `web-deploy-67959776b5-abc12   1/1     Running   0          45s`
-> `web-deploy-67959776b5-xyz34   1/1     Running   0          45s`
-> `web-deploy-67959776b5-qwe56   1/1     Running   0          45s`
 
 ---
 
@@ -156,9 +137,6 @@ You can command Kubernetes directly from the terminal to change the scale. Let's
 ```bash
 kubectl scale deploy web-deploy --replicas=5
 ```
-*Expected Output:*
-> `deployment.apps/web-deploy scaled`
-
 Run `kubectl get pods` immediately. You will see 2 brand new Pods spinning up to join the original 3.
 
 **The Problem with the Imperative Way:**
@@ -179,9 +157,6 @@ To fix this, we should always make changes to the YAML file first.
 ```bash
 kubectl apply -f deploy.yaml
 ```
-*Expected Output:*
-> `deployment.apps/web-deploy configured`
-*(Notice it says "configured" instead of "created" because the object already exists).*
 
 Check your Pods again:
 
@@ -211,7 +186,3 @@ To avoid leaving running resources on your cluster, always clean up using the sa
 ```bash
 kubectl delete -f deploy.yaml
 ```
-*Expected Output:*
-> `deployment.apps "web-deploy" deleted`
-
-Run `kubectl get pods` one last time to ensure everything is terminating gracefully. You have successfully completed the core workflow of Kubernetes application management!
