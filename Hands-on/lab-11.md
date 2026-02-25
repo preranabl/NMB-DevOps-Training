@@ -36,8 +36,6 @@ To submit this "desired state" to the Kubernetes API server, use the `kubectl ap
 ```bash
 kubectl apply -f pod.yaml
 ```
-*Expected Output:*
-> `pod/my-first-pod created`
 
 ### Step 3: Inspect the Running Pod
 Now, let's ask the Kubernetes API server for the status of our Pod.
