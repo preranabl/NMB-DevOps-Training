@@ -60,6 +60,7 @@ kubectl apply -f configmap.yaml
 
 ```bash
 kubectl get configmap
+kubectl get cm app-config -oyaml
 ```
 
 ---
@@ -113,6 +114,7 @@ Verify:
 
 ```bash
 kubectl get secrets
+kubectl get secrets db-secrets -oyaml
 ```
 ---
 
